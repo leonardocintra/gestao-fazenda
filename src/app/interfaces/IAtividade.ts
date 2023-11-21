@@ -4,4 +4,5 @@ export interface IAtividade {
   funcionario: string;
   quantidade: number;
   unidadeMedida: string;
+  tipoAtividade: string;
 }
