@@ -42,7 +42,7 @@ export default function NovoOperadorPage() {
       const erroString = e instanceof Error ? e.message : String(e);
       if (
         erroString === "Invalid time value" ||
-        erroString === "Invalid date"
+        erroString === "Invalid Date"
       ) {
         setMensagem("Coloque a data no formado dd/MM/yyyy. Ex: 29/01/1990");
       } else {
