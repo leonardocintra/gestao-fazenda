@@ -40,7 +40,10 @@ export default function NovoOperadorPage() {
       router.push("/operador");
     } catch (e) {
       const erroString = e instanceof Error ? e.message : String(e);
-      if (erroString === "Invalid time value") {
+      if (
+        erroString === "Invalid time value" ||
+        erroString === "Invalid date"
+      ) {
         setMensagem("Coloque a data no formado dd/MM/yyyy. Ex: 29/01/1990");
       } else {
         setMensagem("Ocorreu um erro: " + erroString);
