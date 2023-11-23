@@ -3,4 +3,5 @@ export interface IOperador {
   nome: string;
   dataNascimento: Date;
   observacao: string;
+  status: string;
 }

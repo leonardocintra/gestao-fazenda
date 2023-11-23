@@ -18,42 +18,11 @@ import {
   TableRow,
   Title,
 } from "@tremor/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BotaoNavegacao from "../components/BotaoNavegacao";
-
-type SalesPerson = {
-  name: string;
-  leads: number;
-  status: string;
-};
-
-const salesPeople: SalesPerson[] = [
-  {
-    name: "João Marcos",
-    leads: 45,
-    status: "trabalhando",
-  },
-  {
-    name: "Lena Whitehouse",
-    leads: 35,
-    status: "almocando",
-  },
-  {
-    name: "Phil Less",
-    leads: 52,
-    status: "afastado",
-  },
-  {
-    name: "John Camper",
-    leads: 22,
-    status: "trabalhando",
-  },
-  {
-    name: "Max Balmoore",
-    leads: 49,
-    status: "trabalhando",
-  },
-];
+import firebaseData from "../firebase/config";
+import { IOperador } from "../interfaces/IOperador";
+import { collection, getDocs } from "firebase/firestore";
 
 const deltaTypes: { [key: string]: DeltaType } = {
   almocando: "unchanged",
@@ -62,12 +31,35 @@ const deltaTypes: { [key: string]: DeltaType } = {
 };
 
 export default function OperadorPage() {
+  const db = firebaseData.db;
+  const [operadores, setOperadores] = useState<IOperador[]>([]);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
-  const isSalesPersonSelected = (salesPerson: SalesPerson) =>
-    (salesPerson.status === selectedStatus || selectedStatus === "all") &&
-    (selectedNames.includes(salesPerson.name) || selectedNames.length === 0);
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshotOperador = await getDocs(collection(db, "operador"));
+      const operadoresData: IOperador[] = [];
+
+      querySnapshotOperador.forEach((doc) => {
+        operadoresData.push({
+          id: doc.id,
+          nome: doc.data().nome,
+          dataNascimento: doc.data().dataNascimento,
+          observacao: doc.data().observacao,
+          status: "trabalhando",
+        });
+      });
+
+      setOperadores(operadoresData);
+    };
+
+    fetchData();
+  }, [db]);
+
+  const isSalesPersonSelected = (operador: IOperador) =>
+    (operador.status === selectedStatus || selectedStatus === "all") &&
+    (selectedNames.includes(operador.nome) || selectedNames.length === 0);
 
   return (
     <>
@@ -96,11 +88,11 @@ export default function OperadorPage() {
         <MultiSelect
           className="max-w-full sm:max-w-xs"
           onValueChange={setSelectedNames}
-          placeholder="Select Salespeople..."
+          placeholder="Operador..."
         >
-          {salesPeople.map((item) => (
-            <MultiSelectItem key={item.name} value={item.name}>
-              {item.name}
+          {operadores.map((item) => (
+            <MultiSelectItem key={item.id} value={item.nome}>
+              {item.nome}
             </MultiSelectItem>
           ))}
         </MultiSelect>
@@ -109,7 +101,7 @@ export default function OperadorPage() {
           defaultValue="all"
           onValueChange={setSelectedStatus}
         >
-          <SelectItem value="all">All Performances</SelectItem>
+          <SelectItem value="all">Status</SelectItem>
           <SelectItem value="trabalhando">trabalhando</SelectItem>
           <SelectItem value="almocando">almocando</SelectItem>
           <SelectItem value="afastado">afastado</SelectItem>
@@ -119,18 +111,16 @@ export default function OperadorPage() {
         <TableHead>
           <TableRow>
             <TableHeaderCell>Nome</TableHeaderCell>
-            <TableHeaderCell className="text-right">Nascimento</TableHeaderCell>
             <TableHeaderCell className="text-right">Status</TableHeaderCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {salesPeople
+          {operadores
             .filter((item) => isSalesPersonSelected(item))
             .map((item) => (
-              <TableRow key={item.name}>
-                <TableCell>{item.name}</TableCell>
-                <TableCell className="text-right">{item.leads}</TableCell>
+              <TableRow key={item.id}>
+                <TableCell>{item.nome}</TableCell>
                 <TableCell className="text-right">
                   <BadgeDelta deltaType={deltaTypes[item.status]} size="xs">
                     {item.status}

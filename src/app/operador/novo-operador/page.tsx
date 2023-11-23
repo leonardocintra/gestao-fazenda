@@ -30,6 +30,7 @@ export default function NovoOperadorPage() {
         nome: formData.get("nome") as string,
         dataNascimento: dataFormatada,
         observacao: formData.get("observacao") as string,
+        status: "trabalhando"
       };
 
       const docRef = await addDoc(collection(db, "operador"), data);
