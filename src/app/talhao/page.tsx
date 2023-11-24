@@ -87,6 +87,7 @@ export default function TalhaoPage() {
       </div>
       <div className="flex space-x-2">
         <MultiSelect
+          placeholderSearch="Procurar ..."
           className="max-w-full sm:max-w-xs"
           onValueChange={setSelectedNames}
           placeholder="Talhão ..."

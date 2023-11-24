@@ -10,7 +10,6 @@ import {
 import { addDoc, collection } from "firebase/firestore";
 import { FormEvent, useState } from "react";
 import firebaseData from "../../firebase/config";
-import { IOperador } from "../../interfaces/IOperador";
 import { parse } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useRouter } from "next/navigation";
