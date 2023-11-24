@@ -2,6 +2,7 @@
 
 import { InformationCircleIcon } from "@heroicons/react/solid";
 import {
+  Badge,
   BadgeDelta,
   DeltaType,
   Flex,
@@ -21,8 +22,8 @@ import {
 import { useEffect, useState } from "react";
 import BotaoNavegacao from "../components/BotaoNavegacao";
 import firebaseData from "../firebase/config";
-import { IOperador } from "../interfaces/IOperador";
 import { collection, getDocs } from "firebase/firestore";
+import { IMaquina } from "../interfaces/IMaquina";
 
 const deltaTypes: { [key: string]: DeltaType } = {
   almocando: "unchanged",
@@ -30,44 +31,49 @@ const deltaTypes: { [key: string]: DeltaType } = {
   afastado: "moderateDecrease",
 };
 
-export default function OperadorPage() {
+export default function MaquinaPage() {
   const db = firebaseData.db;
-  const [operadores, setOperadores] = useState<IOperador[]>([]);
+  const [maquinas, setMaquinas] = useState<IMaquina[]>([]);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const querySnapshotOperador = await getDocs(collection(db, "operador"));
-      const operadoresData: IOperador[] = [];
+      const querySnapshotMaquinas = await getDocs(collection(db, "maquinas"));
+      const maquinasData: IMaquina[] = [];
 
-      querySnapshotOperador.forEach((doc) => {
-        operadoresData.push({
+      querySnapshotMaquinas.forEach((doc) => {
+        maquinasData.push({
           id: doc.id,
           nome: doc.data().nome,
-          dataNascimento: doc.data().dataNascimento,
+          marca: doc.data().marca,
+          hora: {
+            horaFiltroCombustivel: doc.data().hora.horaFiltroCombustivel,
+            horaFiltroOleoMotor: doc.data().hora.horaFiltroOleoMotor,
+          },
           observacao: doc.data().observacao,
           status: "trabalhando",
         });
       });
 
-      setOperadores(operadoresData);
+      setMaquinas(maquinasData);
     };
 
     fetchData();
   }, [db]);
 
-  const isSalesPersonSelected = (operador: IOperador) =>
-    (operador.status === selectedStatus || selectedStatus === "all") &&
-    (selectedNames.includes(operador.nome) || selectedNames.length === 0);
+  const isSalesPersonSelected = (maquina: IMaquina) =>
+    (maquina.status === selectedStatus || selectedStatus === "all") &&
+    (selectedNames.includes(maquina.nome) || selectedNames.length === 0);
 
   return (
     <>
       <div className="flex justify-end">
         <BotaoNavegacao
-          url="/operador/novo-operador"
-          description="Novo operador"
-          tooltip="Cadastrar um novo funcionario"
+          url="/maquinas/nova-maquina"
+          description="Nova maquina"
+          color="red"
+          tooltip="Cadastrar um novo maquinario"
         />
       </div>
       <div>
@@ -76,7 +82,7 @@ export default function OperadorPage() {
           justifyContent="start"
           alignItems="center"
         >
-          <Title> Meus operadores </Title>
+          <Title>Minhas maquinas </Title>
           <Icon
             icon={InformationCircleIcon}
             variant="simple"
@@ -89,9 +95,9 @@ export default function OperadorPage() {
           placeholderSearch="Procurar ..."
           className="max-w-full sm:max-w-xs"
           onValueChange={setSelectedNames}
-          placeholder="Operador..."
+          placeholder="Maquina..."
         >
-          {operadores.map((item) => (
+          {maquinas.map((item) => (
             <MultiSelectItem key={item.id} value={item.nome}>
               {item.nome}
             </MultiSelectItem>
@@ -111,17 +117,27 @@ export default function OperadorPage() {
       <Table className="mt-6">
         <TableHead>
           <TableRow>
-            <TableHeaderCell>Nome</TableHeaderCell>
+            <TableHeaderCell>Nome / Marca</TableHeaderCell>
+            <TableHeaderCell>Oleo Motor (h)</TableHeaderCell>
+            <TableHeaderCell>Filtro Combustivel (h)</TableHeaderCell>
             <TableHeaderCell className="text-right">Status</TableHeaderCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          {operadores
+          {maquinas
             .filter((item) => isSalesPersonSelected(item))
             .map((item) => (
-              <TableRow key={item.id} className="hover:bg-blue-100 duration-75">
-                <TableCell>{item.nome}</TableCell>
+              <TableRow key={item.id} className="hover:bg-red-100 duration-75">
+                <TableCell>
+                  {item.nome} {item.marca}
+                </TableCell>
+                <TableCell>
+                  <Badge>{item.hora.horaFiltroOleoMotor || " - "}</Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge>{item.hora.horaFiltroCombustivel || " - "}</Badge>
+                </TableCell>
                 <TableCell className="text-right">
                   <BadgeDelta deltaType={deltaTypes[item.status]} size="xs">
                     {item.status}

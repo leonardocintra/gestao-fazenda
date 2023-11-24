@@ -18,14 +18,14 @@ import {
 } from "@tremor/react";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 import { useState, useEffect, FormEvent } from "react";
-import { IAtividade } from "../interfaces/IAtividade";
+import { IServico } from "../interfaces/IServico";
 import firebaseData from "../firebase/config";
 import { ITipoAtividade } from "../interfaces/ITipoAtividade";
 
 export default function AtividadePage() {
   const db = firebaseData.db;
 
-  const [atividades, setAtividades] = useState<IAtividade[]>([]);
+  const [atividades, setAtividades] = useState<IServico[]>([]);
   const [tipoAtividades, setTipoAtividades] = useState<ITipoAtividade[]>([]);
   const [selectAtividadeValue, setSelectAtividadeValue] = useState("");
 
@@ -37,7 +37,7 @@ export default function AtividadePage() {
       const querySnapshotTipoAtividades = await getDocs(
         collection(db, "tipo_atividade")
       );
-      const atividadesData: IAtividade[] = [];
+      const atividadesData: IServico[] = [];
       const tipoAtividadesData: ITipoAtividade[] = [];
 
       querySnapshotAtividades.forEach((doc) => {

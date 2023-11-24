@@ -1,4 +1,4 @@
-export interface IAtividade {
+export interface IServico {
   id: string;
   descricao: string;
   funcionario: string;

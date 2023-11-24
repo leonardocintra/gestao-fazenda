@@ -113,6 +113,7 @@ export default function TalhaoPage() {
         <TableHead>
           <TableRow>
             <TableHeaderCell>Nome</TableHeaderCell>
+            <TableHeaderCell>Área (He)</TableHeaderCell>
             <TableHeaderCell className="text-right">Status</TableHeaderCell>
           </TableRow>
         </TableHead>
@@ -121,8 +122,9 @@ export default function TalhaoPage() {
           {talhoes
             .filter((item) => isSalesPersonSelected(item))
             .map((item) => (
-              <TableRow key={item.id}>
+              <TableRow key={item.id} className="hover:bg-slate-200 duration-75">
                 <TableCell>{item.nome}</TableCell>
+                <TableCell>{item.areaPlantada}</TableCell>
                 <TableCell className="text-right">
                   <BadgeDelta deltaType={deltaTypes[item.status]} size="xs">
                     {item.status}
