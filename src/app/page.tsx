@@ -14,12 +14,12 @@ export default function Home() {
           tooltip="Gerencie seus funcionários"
           url="/operador"
         />
-        <BotaoNavegacao
+        {/* <BotaoNavegacao
           description="Atividades"
           tooltip="Gerencie seus serviços e atividades"
           url="/atividade"
           color="cyan"
-        />
+        /> */}
         <BotaoNavegacao
           description="Talhão"
           tooltip="Gerencie suas lavouras"
