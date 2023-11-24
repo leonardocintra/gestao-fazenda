@@ -20,6 +20,12 @@ export default function Home() {
           url="/atividade"
           color="cyan"
         />
+        <BotaoNavegacao
+          description="Talhão"
+          tooltip="Gerencie suas lavouras"
+          url="/talhao"
+          color="emerald"
+        />
       </Card>
     </div>
   );
