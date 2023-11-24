@@ -1,6 +1,17 @@
-interface IHoraMaquina {
-  horaFiltroCombustivel: number
-  horaFiltroOleoMotor: number
+interface IHoraMaquinaAtual {
+  oleoMotor: number
+  oleoHidraulico: number
+  filtroOleoMotor: number
+  filtroOleoHidraulico: number
+  filtroCombustivel: number
+}
+
+interface IHoraMaquinaAviso {
+  oleoMotor: number
+  oleoHidraulico: number
+  filtroOleoMotor: number
+  filtroOleoHidraulico: number
+  filtroCombustivel: number
 }
 
 export interface IMaquina {
@@ -9,5 +20,6 @@ export interface IMaquina {
   marca: string;
   observacao: string;
   status: string;
-  hora: IHoraMaquina
+  horaAtual: IHoraMaquinaAtual
+  horaAviso: IHoraMaquinaAviso
 }

@@ -47,12 +47,22 @@ export default function MaquinaPage() {
           id: doc.id,
           nome: doc.data().nome,
           marca: doc.data().marca,
-          hora: {
-            horaFiltroCombustivel: doc.data().hora.horaFiltroCombustivel,
-            horaFiltroOleoMotor: doc.data().hora.horaFiltroOleoMotor,
+          horaAtual: {
+            oleoMotor: doc.data().horaAtual.oleoMotor,
+            oleoHidraulico: doc.data().horaAtual.oleoHidraulico,
+            filtroCombustivel: doc.data().horaAtual.filtroCombustivel,
+            filtroOleoHidraulico: doc.data().horaAtual.filtroOleoHidraulico,
+            filtroOleoMotor: doc.data().horaAtual.filtroOleoMotor,
+          },
+          horaAviso: {
+            oleoMotor: doc.data().horaAviso.oleoMotor,
+            oleoHidraulico: doc.data().horaAviso.oleoHidraulico,
+            filtroCombustivel: doc.data().horaAviso.filtroCombustivel,
+            filtroOleoHidraulico: doc.data().horaAviso.filtroOleoHidraulico,
+            filtroOleoMotor: doc.data().horaAviso.filtroOleoMotor,
           },
           observacao: doc.data().observacao,
-          status: "trabalhando",
+          status: doc.data().status,
         });
       });
 
@@ -118,8 +128,6 @@ export default function MaquinaPage() {
         <TableHead>
           <TableRow>
             <TableHeaderCell>Nome / Marca</TableHeaderCell>
-            <TableHeaderCell>Oleo Motor (h)</TableHeaderCell>
-            <TableHeaderCell>Filtro Combustivel (h)</TableHeaderCell>
             <TableHeaderCell className="text-right">Status</TableHeaderCell>
           </TableRow>
         </TableHead>
@@ -131,12 +139,6 @@ export default function MaquinaPage() {
               <TableRow key={item.id} className="hover:bg-red-100 duration-75">
                 <TableCell>
                   {item.nome} {item.marca}
-                </TableCell>
-                <TableCell>
-                  <Badge>{item.hora.horaFiltroOleoMotor || " - "}</Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge>{item.hora.horaFiltroCombustivel || " - "}</Badge>
                 </TableCell>
                 <TableCell className="text-right">
                   <BadgeDelta deltaType={deltaTypes[item.status]} size="xs">
