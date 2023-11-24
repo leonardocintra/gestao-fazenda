@@ -3,6 +3,7 @@
 import {
   Button,
   Card,
+  Divider,
   Flex,
   NumberInput,
   Text,
@@ -105,81 +106,81 @@ export default function NovaMaquinarPage() {
             valor atual | valor de aviso
           </Text>
 
-          <Flex className="mt-2 space-x-2">
-            <Text className="w-full">Óleo do motor</Text>
+          {handleTextManutencao("Óleo do motor")}
+          <Flex className="space-x-2">
             <NumberInput
               name="oleoMotorAtual"
-              placeholder="Oleo do motor"
+              placeholder="valor atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="oleoMotorAviso"
-              placeholder="Oleo do motor"
+              placeholder="valor de aviso"
               min={0}
               enableStepper={false}
             />
           </Flex>
 
-          <Flex className="mt-2 space-x-2">
-            <Text className="w-full">Oleo hidraulico</Text>
+          {handleTextManutencao("Óleo hidraulico")}
+          <Flex className="space-x-2">
             <NumberInput
               name="oleoHidraulicoAtual"
-              placeholder="Oleo hidraulico"
+              placeholder="valor atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="oleoHidraulicoAviso"
-              placeholder="Oleo hidraulico"
+              placeholder="valor de aviso"
               min={0}
               enableStepper={false}
             />
           </Flex>
 
-          <Flex className="mt-2 space-x-2">
-            <Text className="w-full">Filtro óleo motor</Text>
+          {handleTextManutencao("Filtro óleo motor")}
+          <Flex className="space-x-2">
             <NumberInput
               name="filtroOleoMotorAtual"
-              placeholder="Filtro oleto motor"
+              placeholder="valor atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroOleoMotorAviso"
-              placeholder="Filtro oleto motor"
+              placeholder="valor de aviso"
               min={0}
               enableStepper={false}
             />
           </Flex>
 
-          <Flex className="mt-2 space-x-2">
-            <Text className="w-full">Filtro óleo hidraulico</Text>
+          {handleTextManutencao("Filtro óleo hidraulico")}
+          <Flex className="space-x-2">
             <NumberInput
               name="filtroOleoHidraulicoAtual"
-              placeholder="Filtro oleo hidraulico"
+              placeholder="valor atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroOleoHidraulicoAviso"
-              placeholder="Filtro oleo hidraulico"
+              placeholder="valor de aviso"
               min={0}
               enableStepper={false}
             />
           </Flex>
 
-          <Flex className="mt-2 space-x-2">
-            <Text className="w-full">Filtro combustivel</Text>
+          {handleTextManutencao("Filtro combustivel")}
+          <Flex className="space-x-2">
             <NumberInput
               name="filtroCombustivelAtual"
-              placeholder="Filtro combustivel atual"
+              placeholder="valor atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroCombustivelAviso"
-              placeholder="Filtro combustivel aviso"
+              placeholder="valor de aviso"
               min={0}
               enableStepper={false}
             />
@@ -204,4 +205,8 @@ export default function NovaMaquinarPage() {
       )}
     </div>
   );
+
+  function handleTextManutencao(texto: string) {
+    return <Text className="w-full mt-5 mb-1 text-center font-semibold">{texto}</Text>;
+  }
 }
