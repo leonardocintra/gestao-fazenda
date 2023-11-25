@@ -3,6 +3,7 @@
 import {
   Button,
   DatePicker,
+  Flex,
   NumberInput,
   TextInput,
   Textarea,
@@ -16,6 +17,7 @@ import { useRouter } from "next/navigation";
 import MensagemAviso from "../../components/MensagemAviso";
 import { ExclamationIcon } from "@heroicons/react/solid";
 import { ITalhao } from "../../interfaces/ITalhao";
+import BotaoSalvarVoltar from "../../components/BotaoSalvarVoltar";
 
 export default function NovoTalhaoPage() {
   const router = useRouter();
@@ -75,7 +77,7 @@ export default function NovoTalhaoPage() {
           onClick={() => setMensagem("")}
         />
         <Textarea placeholder="Alguma observação ..." name="observacao" />
-        <Button type="submit">Salvar</Button>
+        <BotaoSalvarVoltar url="/talhao" />
       </form>
 
       {mensagem ? (

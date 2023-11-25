@@ -10,6 +10,7 @@ import { ptBR } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import MensagemAviso from "../../components/MensagemAviso";
 import { ExclamationIcon } from "@heroicons/react/solid";
+import BotaoSalvarVoltar from "../../components/BotaoSalvarVoltar";
 
 export default function NovoOperadorPage() {
   const router = useRouter();
@@ -62,7 +63,8 @@ export default function NovoOperadorPage() {
           onClick={() => setMensagem("")}
         />
         <Textarea placeholder="Alguma observação ..." name="observacao" />
-        <Button type="submit">Salvar</Button>
+        
+        <BotaoSalvarVoltar url="/operador" />
       </form>
 
       {mensagem ? (

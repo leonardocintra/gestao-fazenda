@@ -3,7 +3,6 @@
 import {
   Button,
   Card,
-  Divider,
   Flex,
   NumberInput,
   Text,
@@ -19,8 +18,8 @@ import firebaseData from "../../firebase/config";
 import { useRouter } from "next/navigation";
 import MensagemAviso from "../../components/MensagemAviso";
 import { ExclamationIcon } from "@heroicons/react/solid";
-import { ImWarning } from "react-icons/im";
 import { IMaquina } from "../../interfaces/IMaquina";
+import BotaoSalvarVoltar from "../../components/BotaoSalvarVoltar";
 
 export default function NovaMaquinarPage() {
   const router = useRouter();
@@ -101,22 +100,17 @@ export default function NovaMaquinarPage() {
             <IoConstructOutline /> Manutenção
           </Title>
 
-          <Text className="font-bold p-2 text-red-700 flex items-center justify-center gap-2">
-            <ImWarning />
-            valor atual | valor de aviso
-          </Text>
-
           {handleTextManutencao("Óleo do motor")}
           <Flex className="space-x-2">
             <NumberInput
               name="oleoMotorAtual"
-              placeholder="valor atual"
+              placeholder="hora atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="oleoMotorAviso"
-              placeholder="valor de aviso"
+              placeholder="trocar a cada ..."
               min={0}
               enableStepper={false}
             />
@@ -126,13 +120,13 @@ export default function NovaMaquinarPage() {
           <Flex className="space-x-2">
             <NumberInput
               name="oleoHidraulicoAtual"
-              placeholder="valor atual"
+              placeholder="hora atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="oleoHidraulicoAviso"
-              placeholder="valor de aviso"
+              placeholder="trocar a cada ..."
               min={0}
               enableStepper={false}
             />
@@ -142,13 +136,13 @@ export default function NovaMaquinarPage() {
           <Flex className="space-x-2">
             <NumberInput
               name="filtroOleoMotorAtual"
-              placeholder="valor atual"
+              placeholder="hora atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroOleoMotorAviso"
-              placeholder="valor de aviso"
+              placeholder="trocar a cada ..."
               min={0}
               enableStepper={false}
             />
@@ -158,13 +152,13 @@ export default function NovaMaquinarPage() {
           <Flex className="space-x-2">
             <NumberInput
               name="filtroOleoHidraulicoAtual"
-              placeholder="valor atual"
+              placeholder="hora atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroOleoHidraulicoAviso"
-              placeholder="valor de aviso"
+              placeholder="trocar a cada ..."
               min={0}
               enableStepper={false}
             />
@@ -174,21 +168,37 @@ export default function NovaMaquinarPage() {
           <Flex className="space-x-2">
             <NumberInput
               name="filtroCombustivelAtual"
-              placeholder="valor atual"
+              placeholder="hora atual"
               min={0}
               enableStepper={false}
             />
             <NumberInput
               name="filtroCombustivelAviso"
-              placeholder="valor de aviso"
+              placeholder="trocar a cada ..."
               min={0}
               enableStepper={false}
             />
           </Flex>
+
+          <Flex className="mt-4">
+            <Button
+              tooltip="Desativado. Nova funcionalidade em breve"
+              className="w-full"
+              color="neutral"
+              disabled={true}
+            >
+              Criar Manutenção
+            </Button>
+          </Flex>
         </Card>
 
-        <Textarea placeholder="Alguma observação ..." name="observacao" />
-        <Button type="submit">Salvar</Button>
+        <Textarea
+          placeholder="Alguma observação ..."
+          name="observacao"
+          rows={3}
+        />
+
+        <BotaoSalvarVoltar url="/maquinas" />
       </form>
 
       {mensagem ? (
@@ -207,6 +217,10 @@ export default function NovaMaquinarPage() {
   );
 
   function handleTextManutencao(texto: string) {
-    return <Text className="w-full mt-5 mb-1 text-center font-semibold">{texto}</Text>;
+    return (
+      <Text className="w-full mt-5 mb-1 text-center font-semibold">
+        {texto}
+      </Text>
+    );
   }
 }

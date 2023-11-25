@@ -25,12 +25,6 @@ import firebaseData from "../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 import { IMaquina } from "../interfaces/IMaquina";
 
-const deltaTypes: { [key: string]: DeltaType } = {
-  almocando: "unchanged",
-  trabalhando: "moderateIncrease",
-  afastado: "moderateDecrease",
-};
-
 export default function MaquinaPage() {
   const db = firebaseData.db;
   const [maquinas, setMaquinas] = useState<IMaquina[]>([]);
@@ -74,7 +68,7 @@ export default function MaquinaPage() {
 
   const isSalesPersonSelected = (maquina: IMaquina) =>
     (maquina.status === selectedStatus || selectedStatus === "all") &&
-    (selectedNames.includes(maquina.nome) || selectedNames.length === 0);
+    (selectedNames.includes(maquina.nome + maquina.marca) || selectedNames.length === 0);
 
   return (
     <>
@@ -108,27 +102,17 @@ export default function MaquinaPage() {
           placeholder="Maquina..."
         >
           {maquinas.map((item) => (
-            <MultiSelectItem key={item.id} value={item.nome}>
-              {item.nome}
+            <MultiSelectItem key={item.id} value={item.nome + item.marca}>
+              {item.nome} {item.marca}
             </MultiSelectItem>
           ))}
         </MultiSelect>
-        <Select
-          className="max-w-full sm:max-w-xs"
-          defaultValue="all"
-          onValueChange={setSelectedStatus}
-        >
-          <SelectItem value="all">Status</SelectItem>
-          <SelectItem value="trabalhando">trabalhando</SelectItem>
-          <SelectItem value="almocando">almocando</SelectItem>
-          <SelectItem value="afastado">afastado</SelectItem>
-        </Select>
       </div>
       <Table className="mt-6">
         <TableHead>
           <TableRow>
             <TableHeaderCell>Nome / Marca</TableHeaderCell>
-            <TableHeaderCell className="text-right">Status</TableHeaderCell>
+            <TableHeaderCell className="text-right">Alertas / Aviso</TableHeaderCell>
           </TableRow>
         </TableHead>
 
@@ -141,9 +125,7 @@ export default function MaquinaPage() {
                   {item.nome} {item.marca}
                 </TableCell>
                 <TableCell className="text-right">
-                  <BadgeDelta deltaType={deltaTypes[item.status]} size="xs">
-                    {item.status}
-                  </BadgeDelta>
+                  <Badge className="px-4" size="xs" color="neutral">Nenhum alerta / aviso</Badge>
                 </TableCell>
               </TableRow>
             ))}
